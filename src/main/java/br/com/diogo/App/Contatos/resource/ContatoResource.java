@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.diogo.App.Contatos.dto.ContatoDTO;
+import br.com.diogo.App.Contatos.dto.PessoaDTO;
 import br.com.diogo.App.Contatos.model.Contato;
 import br.com.diogo.App.Contatos.model.Pessoa;
 import br.com.diogo.App.Contatos.service.ContatoService;
 
 @RestController
-@RequestMapping("/api/contatosRelacionados") //http://localhost:8080/api/contatos
+@RequestMapping("/api/contatos") //http://localhost:8080/api/contatos
 public class ContatoResource {
 
 
@@ -37,8 +38,8 @@ public class ContatoResource {
 	
 
 	@GetMapping
-	public ResponseEntity<List<Contato>> getAllContatos(){
-		List<Contato> Contatos = contatoService.getAll();
+	public ResponseEntity<List<ContatoDTO>> getAllContatos(){
+		List<ContatoDTO> Contatos = contatoService.getAll();
 		if(Contatos == null)
 			return ResponseEntity.notFound().build();
 		if(Contatos.size() == 0)
@@ -47,15 +48,36 @@ public class ContatoResource {
 	}
 
 	
-	
-	
+	@PostMapping
+	public ResponseEntity<ContatoDTO> save(@RequestBody ContatoDTO contatoDTO){
+		ContatoDTO newContato = contatoService.save(contatoDTO);
+		if(newContato == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(newContato);
+	}
 	
 	@GetMapping("/{id}") //http://localhost:8080/api/agenda/2
-	public ResponseEntity<Optional<Contato>> getById(@PathVariable Long id){
-		Optional<Contato> Contato = contatoService.getById(id);
+	public ResponseEntity<Optional<ContatoDTO>> getById(@PathVariable Long id){
+		Optional<ContatoDTO> Contato = contatoService.getById(id);
 		if(Contato == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(Contato);
+	}
+	
+	
+	@PutMapping
+	public ResponseEntity<ContatoDTO> update(@RequestBody ContatoDTO contatoDTO){
+		ContatoDTO upContato = contatoService.update(contatoDTO);
+		if(upContato == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(upContato);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id){
+		contatoService.delete(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT); //status code 204	
+	
 	}
 	
 

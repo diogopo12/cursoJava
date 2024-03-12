@@ -39,36 +39,36 @@ public class PessoaResource {
 	
 
 	@GetMapping
-	public ResponseEntity<List<Pessoa>> getAllPessoas(){
-		List<Pessoa> Pessoas = pessoaService.getAll();
-		if(Pessoas == null)
+	public ResponseEntity<List<PessoaDTO>> getAllPessoas(){
+		List<PessoaDTO> PessoasDTO = pessoaService.getAll();
+		if(PessoasDTO == null)
 			return ResponseEntity.notFound().build();
-		if(Pessoas.size() == 0)
+		if(PessoasDTO.size() == 0)
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(Pessoas);
+		return ResponseEntity.ok(PessoasDTO);
 	}
 
 	
 	
 	@PostMapping
-	public ResponseEntity<Pessoa> save(@RequestBody Pessoa Pessoa){
-		Pessoa newPessoa = pessoaService.save(Pessoa);
+	public ResponseEntity<PessoaDTO> save(@RequestBody PessoaDTO PessoaDTO){
+		PessoaDTO newPessoa = pessoaService.save(PessoaDTO);
 		if(newPessoa == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(newPessoa);
 	}
 	
 	@GetMapping("/{id}") //http://localhost:8080/api/agenda/2
-	public ResponseEntity<Optional<Pessoa>> getById(@PathVariable Long id){
-		Optional<Pessoa> Pessoa = pessoaService.getById(id);
+	public ResponseEntity<Optional<PessoaDTO>> getById(@PathVariable Long id){
+		Optional<PessoaDTO> Pessoa = pessoaService.getById(id);
 		if(Pessoa == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(Pessoa);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Pessoa> update(@RequestBody Pessoa Pessoa){
-		Pessoa upPessoa = pessoaService.update(Pessoa);
+	public ResponseEntity<PessoaDTO> update(@RequestBody PessoaDTO PessoaDTO){
+		PessoaDTO upPessoa = pessoaService.update(PessoaDTO);
 		if(upPessoa == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(upPessoa);
@@ -78,15 +78,8 @@ public class PessoaResource {
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		pessoaService.delete(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT); //status code 204
-	}
-	
-	@GetMapping("/detalhes")
-	public ResponseEntity<List<PessoaDTO>> buscaPessoas_Contatos(){
-		List<PessoaDTO> listPessoaDTO = pessoaService.buscaPessoas_Contatos();
-		if(listPessoaDTO == null)
-			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(listPessoaDTO);
 	}	
+	
 	
 	
 }

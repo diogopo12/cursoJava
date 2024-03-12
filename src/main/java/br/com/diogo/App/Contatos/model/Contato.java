@@ -2,8 +2,9 @@ package br.com.diogo.App.Contatos.model;
 
 import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
 
-
+import br.com.diogo.App.Contatos.dto.ContatoDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,17 +31,16 @@ public class Contato {
 	private String contato;
 	
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_pessoa", insertable=false, updatable=false)
+	@ManyToOne //(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_pessoa")//, insertable=false, updatable=false)
 	private Pessoa pessoa;
 	
 	public Contato() {}
 
-	public Contato(Long id, Integer tipoContato, String contato, Pessoa pessoa) {
-		this.id = id;
-		this.tipoContato = tipoContato;
-		this.contato = contato;
-		this.pessoa = pessoa;
+	public Contato(ContatoDTO contatoDTO) {
+		BeanUtils.copyProperties(contatoDTO, this);
+		
+		
 	}
 
 	public Long getId() {
@@ -80,6 +80,13 @@ public class Contato {
 	}
 	
 
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
 
 	@Override
 	public int hashCode() {
@@ -98,20 +105,6 @@ public class Contato {
 		return Objects.equals(id, other.id);
 	}
 	
-	@Override
-	public String toString() {
-		return "[id = " + this.id +
-				", tipocontato = " + this.tipoContato +
-				", contato = " + this.contato +"]";
-		}
-
-//	public Pessoa getPessoa() {
-//		return pessoa;
-//	}
-
-//	public void setPessoa(Pessoa pessoa) {
-//		this.pessoa = pessoa;
-//	}
 	
 	
 	

@@ -2,7 +2,10 @@ package br.com.diogo.App.Contatos.dto;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
 import br.com.diogo.App.Contatos.model.Contato;
+import br.com.diogo.App.Contatos.model.Pessoa;
 
 public class PessoaDTO {
 	
@@ -13,19 +16,12 @@ public class PessoaDTO {
 	private String cep;
 	private String cidade;
 	private String uf; 
-	private List<Contato> contatos;
+	private List<ContatoDTO> contatos;
 	
 	public PessoaDTO() {}
 	
-	public PessoaDTO(Long id, String nome, String endereco, String cep, String cidade, String uf, List<Contato> contatos) {
-		this.id = id;
-		this.nome = nome;
-		this.endereco =endereco;
-		this.cep = cep;
-		this.cidade = cidade;
-		this.uf = uf;
-		this.contatos = contatos;
-		
+	public PessoaDTO(Pessoa pessoa) {
+		BeanUtils.copyProperties(pessoa, this);		
 		
 	}
 
@@ -77,11 +73,11 @@ public class PessoaDTO {
 		this.uf = uf;
 	}
 
-	public List<Contato> getContatos() {
+	public List<ContatoDTO> getContatos() {
 		return contatos;
 	}
 
-	public void setContatos(List<Contato> contatos) {
+	public void setContatos(List<ContatoDTO> contatos) {
 		this.contatos = contatos;
 	}
 

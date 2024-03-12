@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.diogo.App.Contatos.dto.ContatoDTO;
+import br.com.diogo.App.Contatos.dto.PessoaDTO;
 import br.com.diogo.App.Contatos.model.Contato;
 import br.com.diogo.App.Contatos.model.Pessoa;
 import br.com.diogo.App.Contatos.repository.ContatoRepository;
@@ -30,38 +31,41 @@ public class ContatoService implements ContatoServiceInterface {
 	}
 	
 	@Override
-	public Contato save(Contato contato) {
-		return contatoRepository.save(contato);
+	public ContatoDTO save(ContatoDTO contatoDTO) {
+		Contato contato = new Contato(contatoDTO); 
+		Optional<Pessoa> optPessoa = pessoaRepository.findById(contatoDTO.getId_pessoa());
+		if (optPessoa.isPresent()) {
+			contato.setPessoa(optPessoa.get());
+		}
+		
+		return  new ContatoDTO(contatoRepository.save(contato));
 	}
 
 
 	
 	@Override
-	public Optional<Contato> getById(Long id) {
-		return contatoRepository.findById(id);
+	public Optional<ContatoDTO> getById(Long id) {
+		Optional<Contato> contato = contatoRepository.findById(id);
+		ContatoDTO contatoDTO = new ContatoDTO(contato.get());
+		Optional<ContatoDTO> optContatoDTO= Optional.of(contatoDTO);
+		return optContatoDTO;		
 
 	}
 
 	@Override
-	public List<Contato> getAll() {
-		return contatoRepository.findAll();
+	public List<ContatoDTO> getAll() {
+		List<Contato> resultContatos = contatoRepository.findAll();		
+		return resultContatos.stream().map(ContatoDTO::new).toList();		
 	}
 
 	@Override
-	public Contato update(Contato contato) {
-		Optional<Contato> findContato = contatoRepository.findById(contato.getId());
-				
-				//se ele existir, vou atualizar:
-				if(findContato.isPresent()) {
-					Contato updateContato = findContato.get(); //setId
-					updateContato.setTipoContato(contato.getTipoContato());
-					updateContato.setContato(contato.getContato());
-					return contatoRepository.save(updateContato);			
-
-					
-					
-				}
-				return contato;		
+	public ContatoDTO update(ContatoDTO contatoDTO) {
+		Contato contato = new Contato(contatoDTO);
+		Optional<Pessoa> optPessoa = pessoaRepository.findById(contatoDTO.getId_pessoa());
+		if (optPessoa.isPresent()) {
+			contato.setPessoa(optPessoa.get());
+		}
+		return new ContatoDTO(contatoRepository.save(contato));
 	}
 
 	@Override

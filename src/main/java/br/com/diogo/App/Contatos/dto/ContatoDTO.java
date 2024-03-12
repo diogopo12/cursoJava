@@ -1,20 +1,28 @@
 package br.com.diogo.App.Contatos.dto;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.diogo.App.Contatos.model.Contato;
+import br.com.diogo.App.Contatos.model.Pessoa;
+import br.com.diogo.App.Contatos.dto.PessoaDTO;
+
+
 public class ContatoDTO {
+	
 	
 	private Long id;
 	private Integer tipoContato;
 	private String contato;
 	private Long id_pessoa;
 	
+	
 	public ContatoDTO() {}
 	
-	public ContatoDTO(Long id,Integer tipocontato,String contato,Long id_pessoa) {
-		this.id=id;
-		this.tipoContato=tipocontato;
-		this.contato=contato;
-		this.id_pessoa = id_pessoa;
-		
+	public ContatoDTO(Contato contato) {
+		BeanUtils.copyProperties(contato, this);
+		if(contato != null && contato.getPessoa() != null) {
+			this.setId_pessoa(contato.getPessoa().getId());		
+		}
 	}
 	
 	public Long getId() {
@@ -40,6 +48,7 @@ public class ContatoDTO {
 		this.contato = contato;
 	}
 
+
 	public Long getId_pessoa() {
 		return id_pessoa;
 	}
@@ -47,6 +56,8 @@ public class ContatoDTO {
 	public void setId_pessoa(Long id_pessoa) {
 		this.id_pessoa = id_pessoa;
 	}
+
+
 
 	
 

@@ -4,24 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.diogo.App.Contatos.dto.PessoaDTO;
-import br.com.diogo.App.Contatos.model.Pessoa;
-
-
 
 
 public interface PessoaServiceInterface {
 	
-	//Salvar o Pessoa
-		Pessoa save(Pessoa Pessoa);
-		//Recuperar 1 Pessoa
-		Optional<Pessoa> getById(Long id);
-		//Recuperar todos os Pessoas
-		List<Pessoa> getAll();
-		//Atualizar o Pessoa
-		Pessoa update(Pessoa Pessoa);
-		//Deletar o Pessoa
+	//Salvar o PessoaDTO
+		PessoaDTO save(PessoaDTO pessoaDTO);
+		//Recuperar 1 PessoaDTO
+		Optional<PessoaDTO> getById(Long id);
+		//Recuperar todos os PessoaDTOs
+		List<PessoaDTO> getAll();
+		//Atualizar o PessoaDTO
+		PessoaDTO update(PessoaDTO PessoaDTO);
+		//Deletar o PessoaDTO
 		void delete(Long id);
 		
-		List<PessoaDTO> buscaPessoas_Contatos();
 
 }

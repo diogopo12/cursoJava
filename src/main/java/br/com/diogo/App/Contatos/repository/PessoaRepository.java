@@ -12,9 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
-	
-	@Query(value = "SELECT ID, NOME, ENDERECO, CEP, CIDADE, UF FROM PUBLIC.PESSOA", nativeQuery = true)
-	List<Pessoa> buscarPessoas(); //busca por pessoa
-	
+
 
 }

@@ -3,13 +3,16 @@ package br.com.diogo.App.Contatos.model;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.diogo.App.Contatos.dto.ContatoDTO;
+import br.com.diogo.App.Contatos.dto.PessoaDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -37,20 +40,12 @@ public class Pessoa {
 	@Column(name = "uf", nullable = true, length = 2)
 	private String uf;
 	
-	@OneToMany(cascade = CascadeType.ALL,
-			mappedBy="pessoa",
-			targetEntity = Contato.class)
-	private List<Contato> contatos;
 	
 	public Pessoa() {}
 
-	public Pessoa(Long id, String nome, String endereco, String cep, String cidade, String uf) {
-		this.id = id;
-		this.nome = nome;
-		this.endereco = endereco;
-		this.cep = cep;
-		this.cidade = cidade;
-		this.uf = uf;		
+	public Pessoa(PessoaDTO pessoaDTO) {
+		BeanUtils.copyProperties(pessoaDTO, this);		
+		
 	}
 
 	public Long getId() {
@@ -100,6 +95,9 @@ public class Pessoa {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
+	
+	
+
 
 	@Override
 	public int hashCode() {
@@ -117,15 +115,8 @@ public class Pessoa {
 		Pessoa other = (Pessoa) obj;
 		return Objects.equals(id, other.id);
 	}
+
+
 	
-	@Override
-	public String toString() {
-		return "[id = " + this.id +
-				", nome = " + this.nome +
-				", endereco = " + this.endereco +
-				", cep = " + this.cep +
-				", cidade = " + this.cidade +
-				", uf = " + this.uf + "]";
-	}
 	
 }
